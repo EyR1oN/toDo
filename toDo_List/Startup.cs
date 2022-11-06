@@ -28,6 +28,9 @@ namespace toDo_List
         {
 
             services.AddControllers();
+            services.AddCors(options =>
+                options.AddDefaultPolicy(
+                builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "toDo_List", Version = "v1" });
@@ -47,6 +50,8 @@ namespace toDo_List
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
