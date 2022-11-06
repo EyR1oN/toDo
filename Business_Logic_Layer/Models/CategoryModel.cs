@@ -8,6 +8,7 @@ namespace Business_Logic_Layer.Models
 {
     public class CategoryModel
     {
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }
