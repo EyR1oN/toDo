@@ -38,5 +38,12 @@ namespace Data_Access_Layer
             db.ToDos.Remove(todo);
             db.SaveChanges();
         }
+
+        public void PutToDo(ToDo toDo)
+        {
+            var db = new ToDoListDbContext();
+            db.Update(toDo);
+            db.SaveChanges();
+        }
     }
 }

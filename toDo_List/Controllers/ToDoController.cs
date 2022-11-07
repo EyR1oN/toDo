@@ -47,6 +47,12 @@ namespace toDo_List.Controllers
             _BLL.PostToDo(toDo);
         }
 
+        [HttpPut]
+        public void PutToDo(ToDoModel toDo)
+        {
+            _BLL.PutToDo(toDo);
+        }
+
 
         [HttpDelete]
         public void DeleteToDo(int id)

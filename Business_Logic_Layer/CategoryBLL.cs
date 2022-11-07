@@ -38,5 +38,11 @@ namespace Business_Logic_Layer
         {
             _DAL.DeleteCategory(id);
         }
+
+        public void PutCategory(CategoryModel categoryModel)
+        {
+            Category categoryEntity = MyAutoMapper<CategoryModel, Category>.Map(categoryModel);
+            _DAL.PostCategory(categoryEntity);
+        }
     }
 }

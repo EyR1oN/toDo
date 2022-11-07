@@ -42,5 +42,11 @@ namespace Business_Logic_Layer
             _DAL.DeleteToDo(id);
         }
 
+        public void PutToDo(ToDoModel toDoModel)
+        {
+            ToDo toDoEntity = MyAutoMapper<ToDoModel, ToDo>.Map(toDoModel);
+            _DAL.PutToDo(toDoEntity);
+        }
+
     }
 }

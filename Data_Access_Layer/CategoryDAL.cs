@@ -33,5 +33,12 @@ namespace Data_Access_Layer
             db.SaveChanges();
         }
 
+        public void PutCategory(Category categoryModel)
+        {
+            var db = new ToDoListDbContext();
+            db.Update(categoryModel);
+            db.SaveChanges();
+        }
+
     }
 }
