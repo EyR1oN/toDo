@@ -31,6 +31,12 @@ namespace toDo_List.Controllers
             _BLL.PostCategory(toDo);
         }
 
+        [HttpPut]
+        public void PutCategory(CategoryModel toDo)
+        {
+            _BLL.PostCategory(toDo);
+        }
+
 
         [HttpDelete]
         public void DeleteCategory(int id)
