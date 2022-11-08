@@ -34,7 +34,7 @@ namespace toDo_List.Controllers
         [HttpPut]
         public void PutCategory(CategoryModel toDo)
         {
-            _BLL.PostCategory(toDo);
+            _BLL.PutCategory(toDo);
         }
 
 

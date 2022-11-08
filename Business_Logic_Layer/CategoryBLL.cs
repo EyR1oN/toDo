@@ -42,7 +42,7 @@ namespace Business_Logic_Layer
         public void PutCategory(CategoryModel categoryModel)
         {
             Category categoryEntity = MyAutoMapper<CategoryModel, Category>.Map(categoryModel);
-            _DAL.PostCategory(categoryEntity);
+            _DAL.PutCategory(categoryEntity);
         }
     }
 }
