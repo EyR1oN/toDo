@@ -1,6 +1,7 @@
 ﻿using Business_Logic_Layer.AutoMapper;
 using Business_Logic_Layer.Models;
 using Data_Access_Layer.Repository.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,30 +20,30 @@ namespace Business_Logic_Layer
             _DAL = new Data_Access_Layer.CategoryDAL();
         }
 
-        public List<CategoryModel> GetCategories()
+        public async Task<List<CategoryModel>> GetCategories()
         {
-            var categoriesEntity = _DAL.GetCategories();
+            var categoriesEntity = await _DAL.GetCategories();
             List<CategoryModel> categoriesModel = MyAutoMapper<Category, CategoryModel>.MapList(categoriesEntity);
 
             return categoriesModel;
         }
 
-        public void PostCategory(CategoryModel catedory)
+        public async Task<IActionResult> PostCategory(CategoryModel catedory)
         {
             Category categoryEntity = MyAutoMapper<CategoryModel, Category>.Map(catedory);
-            _DAL.PostCategory(categoryEntity);
+            return await _DAL.PostCategory(categoryEntity);
         }
 
 
-        public void DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
-            _DAL.DeleteCategory(id);
+            return await _DAL.DeleteCategory(id);
         }
 
-        public void PutCategory(CategoryModel categoryModel)
+        public async Task<IActionResult> PutCategory(CategoryModel categoryModel)
         {
             Category categoryEntity = MyAutoMapper<CategoryModel, Category>.Map(categoryModel);
-            _DAL.PutCategory(categoryEntity);
+            return await _DAL.PutCategory(categoryEntity);
         }
     }
 }

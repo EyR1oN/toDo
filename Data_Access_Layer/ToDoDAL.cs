@@ -1,49 +1,54 @@
 ﻿using Data_Access_Layer.Repository;
 using Data_Access_Layer.Repository.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace Data_Access_Layer
 {
-    public class ToDoDAL
+    public class ToDoDAL : ControllerBase
     {
-        public List<ToDo> GetToDoList()
+        public async Task<List<ToDo>> GetToDoList()
         {
             var db = new ToDoListDbContext();
-            return db.ToDos.ToList();
+            return await db.ToDos.ToListAsync();
         }
 
-        public ToDo GetToDoById(int id)
+        public async Task<ToDo> GetToDoById(int id)
         {
             var db = new ToDoListDbContext();
             ToDo todo = new ToDo();
-            todo = db.ToDos.FirstOrDefault(x => x.Id == id);
+            todo = await db.ToDos.FirstOrDefaultAsync(x => x.Id == id);
 
             return todo;
         }
 
-        public void PostToDo(ToDo todo)
+        public async Task<IActionResult> PostToDo(ToDo todo)
         {
             var db = new ToDoListDbContext();
-            db.Add(todo);
-            db.SaveChanges();
+            await db.AddAsync(todo);
+            await db.SaveChangesAsync();
+            return Ok();
         }
 
-        public void DeleteToDo(int id)
+        public async Task<IActionResult> DeleteToDo(int id)
         {
             var db = new ToDoListDbContext();
             ToDo todo = db.ToDos.FirstOrDefault(x => x.Id == id);
             db.ToDos.Remove(todo);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
+            return Ok();
         }
 
-        public void PutToDo(ToDo toDo)
+        public async Task<IActionResult> PutToDo(ToDo toDo)
         {
             var db = new ToDoListDbContext();
             db.Update(toDo);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
+            return Ok();
         }
     }
 }

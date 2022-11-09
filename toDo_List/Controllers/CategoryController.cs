@@ -10,7 +10,7 @@ namespace toDo_List.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CategoryController : ControllerBase
+    public class CategoryController 
     {
         private Business_Logic_Layer.CategoryBLL _BLL;
         
@@ -20,28 +20,28 @@ namespace toDo_List.Controllers
         }
 
         [HttpGet]
-        public List<CategoryModel> GetCategories()
+        public async Task<List<CategoryModel>> GetCategories()
         {
-            return _BLL.GetCategories();
+            return await _BLL.GetCategories();
         }
 
         [HttpPost]
-        public void PostCategory(CategoryModel toDo)
+        public async Task<IActionResult> PostCategory(CategoryModel toDo)
         {
-            _BLL.PostCategory(toDo);
+           return await _BLL.PostCategory(toDo);
         }
 
         [HttpPut]
-        public void PutCategory(CategoryModel toDo)
+        public async Task<IActionResult> PutCategory(CategoryModel toDo)
         {
-            _BLL.PutCategory(toDo);
+            return await _BLL.PutCategory(toDo);
         }
 
 
         [HttpDelete]
-        public void DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
-            _BLL.DeleteCategory(id);
+            return await _BLL.DeleteCategory(id);
         }
     }
 }
