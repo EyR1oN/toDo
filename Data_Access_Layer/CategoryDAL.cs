@@ -1,43 +1,48 @@
 ﻿using Data_Access_Layer.Repository;
 using Data_Access_Layer.Repository.Entities;
 using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Data_Access_Layer
 {
-    public class CategoryDAL
+    public class CategoryDAL : ControllerBase
     {
 
-        public List<Category> GetCategories()
+        public async Task<List<Category>> GetCategories()
         {
             var db = new ToDoListDbContext();
-            return db.Categories.ToList();
+            return await db.Categories.ToListAsync();
         }
 
-        public void PostCategory(Category category)
+        public async Task<IActionResult> PostCategory(Category category)
         {
             var db = new ToDoListDbContext();
             db.Add(category);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
+            return Ok();
         }
 
 
-        public void DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
             var db = new ToDoListDbContext();
             Category category = db.Categories.FirstOrDefault(x => x.Id == id);
             db.Categories.Remove(category);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
+            return NoContent();
         }
 
-        public void PutCategory(Category categoryModel)
+        public async Task<IActionResult> PutCategory(Category categoryModel)
         {
             var db = new ToDoListDbContext();
             db.Update(categoryModel);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
+            return Ok();
         }
 
     }

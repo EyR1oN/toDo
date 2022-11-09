@@ -22,16 +22,16 @@ namespace toDo_List.Controllers
         }
 
         [HttpGet]
-        public List<ToDoModel> GetToDoList()
+        public async Task<List<ToDoModel>> GetToDoList()
         {
-            return _BLL.GetToDoList();
+            return await _BLL.GetToDoList();
         }
 
         [HttpGet]
         [Route("getById")]
-        public ActionResult<ToDoModel> GetToDoById(int id)
+        public async Task<IActionResult> GetToDoById(int id)
         {
-            var toDo = _BLL.GetToDoById(id);
+            var toDo = await _BLL.GetToDoById(id);
 
             if (toDo == null)
             {
@@ -42,22 +42,22 @@ namespace toDo_List.Controllers
         }
 
         [HttpPost]
-        public void PostToDo(ToDoModel toDo)
+        public async Task<IActionResult> PostToDo(ToDoModel toDo)
         {
-            _BLL.PostToDo(toDo);
+            return await _BLL.PostToDo(toDo);
         }
 
         [HttpPut]
-        public void PutToDo(ToDoModel toDo)
+        public async Task<IActionResult> PutToDo(ToDoModel toDo)
         {
-            _BLL.PutToDo(toDo);
+            return await _BLL.PutToDo(toDo);
         }
 
 
         [HttpDelete]
-        public void DeleteToDo(int id)
+        public async Task<IActionResult> DeleteToDo(int id)
         {
-            _BLL.DeleteToDo(id);
+            return await _BLL.DeleteToDo(id);
         }
 
     }
