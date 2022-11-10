@@ -1,4 +1,6 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer;
+using Business_Logic_Layer.Interfaces;
+using Business_Logic_Layer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
@@ -12,11 +14,11 @@ namespace toDo_List.Controllers
     [Route("[controller]")]
     public class CategoryController 
     {
-        private Business_Logic_Layer.CategoryBLL _BLL;
+        private ICategoryBLL _BLL;
         
-        public CategoryController()
+        public CategoryController(ICategoryBLL BLL)
         {
-            _BLL = new Business_Logic_Layer.CategoryBLL();
+            _BLL = BLL;
         }
 
         [HttpGet]

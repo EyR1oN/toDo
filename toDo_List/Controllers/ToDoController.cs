@@ -1,4 +1,5 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.Interfaces;
+using Business_Logic_Layer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,11 +15,11 @@ namespace toDo_List.Controllers
     public class ToDoController : ControllerBase
     {
 
-        private Business_Logic_Layer.ToDoBLL _BLL;
+        private IToDoBLL _BLL;
 
-        public ToDoController()
+        public ToDoController(IToDoBLL BLL)
         {
-            _BLL = new Business_Logic_Layer.ToDoBLL();
+            _BLL = BLL;
         }
 
         [HttpGet]

@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Business_Logic_Layer.AutoMapper;
+using Business_Logic_Layer.Interfaces;
 using Business_Logic_Layer.Models;
+using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Repository.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Business_Logic_Layer
 {
-    public class ToDoBLL
+    public class ToDoBLL : IToDoBLL
     {
-        private Data_Access_Layer.ToDoDAL _DAL;
+        private IToDoDAL _DAL;
 
-        public ToDoBLL()
+        public ToDoBLL(IToDoDAL DAL)
         {
-            _DAL = new Data_Access_Layer.ToDoDAL();
+            _DAL = DAL;
         }
 
         public async Task<List<ToDoModel>> GetToDoList()

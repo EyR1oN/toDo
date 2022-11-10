@@ -1,5 +1,7 @@
 ﻿using Business_Logic_Layer.AutoMapper;
+using Business_Logic_Layer.Interfaces;
 using Business_Logic_Layer.Models;
+using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Repository.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace Business_Logic_Layer
 {
-    public class CategoryBLL
+    public class CategoryBLL : ICategoryBLL
     {
 
-        private Data_Access_Layer.CategoryDAL _DAL;
+        private ICategoryDAL _DAL;
 
-        public CategoryBLL()
+        public CategoryBLL(ICategoryDAL DAL)
         {
-            _DAL = new Data_Access_Layer.CategoryDAL();
+            _DAL = DAL;
         }
 
         public async Task<List<CategoryModel>> GetCategories()
