@@ -7,42 +7,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Data_Access_Layer.Interfaces;
 
 namespace Data_Access_Layer
 {
-    public class CategoryDAL : ControllerBase
+    public class CategoryDAL : ICategoryDAL
     {
+        private readonly ToDoListDbContext dataBaseContext;
+        public CategoryDAL(ToDoListDbContext _dataBaseContext)
+        {
+            dataBaseContext = _dataBaseContext;
+        }
 
         public async Task<List<Category>> GetCategories()
         {
-            var db = new ToDoListDbContext();
-            return await db.Categories.ToListAsync();
+            return await dataBaseContext.Categories.ToListAsync();
         }
 
-        public async Task<IActionResult> PostCategory(Category category)
+        public async Task<bool> PostCategory(Category category)
         {
-            var db = new ToDoListDbContext();
-            db.Add(category);
-            await db.SaveChangesAsync();
-            return Ok();
+            dataBaseContext.Add(category);
+            var posted = await dataBaseContext.SaveChangesAsync();
+            return posted > 0;
         }
 
 
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<bool> DeleteCategory(int id)
         {
-            var db = new ToDoListDbContext();
-            Category category = db.Categories.FirstOrDefault(x => x.Id == id);
-            db.Categories.Remove(category);
-            await db.SaveChangesAsync();
-            return NoContent();
+            Category category = dataBaseContext.Categories.FirstOrDefault(x => x.Id == id);
+            dataBaseContext.Categories.Remove(category);
+            var updated = await dataBaseContext.SaveChangesAsync();
+            return updated > 0;
         }
 
-        public async Task<IActionResult> PutCategory(Category categoryModel)
+        public async Task<bool> PutCategory(Category categoryModel)
         {
-            var db = new ToDoListDbContext();
-            db.Update(categoryModel);
-            await db.SaveChangesAsync();
-            return Ok();
+            dataBaseContext.Update(categoryModel);
+            var deleted = await dataBaseContext.SaveChangesAsync();
+            return deleted > 0;
         }
 
     }

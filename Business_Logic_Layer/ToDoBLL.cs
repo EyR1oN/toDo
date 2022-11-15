@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Business_Logic_Layer.AutoMapper;
+using Business_Logic_Layer.Interfaces;
 using Business_Logic_Layer.Models;
+using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Repository.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Business_Logic_Layer
 {
-    public class ToDoBLL
+    public class ToDoBLL : IToDoBLL
     {
-        private Data_Access_Layer.ToDoDAL _DAL;
+        private IToDoDAL _DAL;
 
-        public ToDoBLL()
+        public ToDoBLL(IToDoDAL DAL)
         {
-            _DAL = new Data_Access_Layer.ToDoDAL();
+            _DAL = DAL;
         }
 
         public async Task<List<ToDoModel>> GetToDoList()
@@ -33,18 +35,18 @@ namespace Business_Logic_Layer
             return toDoModel;
         }
 
-        public async Task<IActionResult> PostToDo(ToDoModel toDoModel)
+        public async Task<bool> PostToDo(ToDoModel toDoModel)
         {
             ToDo toDoEntity = MyAutoMapper<ToDoModel, ToDo>.Map(toDoModel);
             return await _DAL.PostToDo(toDoEntity);
         }
 
-        public async Task<IActionResult> DeleteToDo(int id)
+        public async Task<bool> DeleteToDo(int id)
         {
             return await _DAL.DeleteToDo(id);
         }
 
-        public async Task<IActionResult> PutToDo(ToDoModel toDoModel)
+        public async Task<bool> PutToDo(ToDoModel toDoModel)
         {
             ToDo toDoEntity = MyAutoMapper<ToDoModel, ToDo>.Map(toDoModel);
             return await _DAL.PutToDo(toDoEntity);

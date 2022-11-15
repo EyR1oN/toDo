@@ -1,54 +1,59 @@
 ﻿using Data_Access_Layer.Repository;
 using Data_Access_Layer.Repository.Entities;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data_Access_Layer.Interfaces;
 
 namespace Data_Access_Layer
 {
-    public class ToDoDAL : ControllerBase
+    public class ToDoDAL : IToDoDAL
     {
+
+        private readonly ToDoListDbContext dataBaseContext;
+        public ToDoDAL(ToDoListDbContext _dataBaseContext)
+        {
+            dataBaseContext = _dataBaseContext;
+        }
+
+
         public async Task<List<ToDo>> GetToDoList()
         {
-            var db = new ToDoListDbContext();
-            return await db.ToDos.ToListAsync();
+            return await dataBaseContext.ToDos.ToListAsync();
         }
 
         public async Task<ToDo> GetToDoById(int id)
         {
             var db = new ToDoListDbContext();
             ToDo todo = new ToDo();
-            todo = await db.ToDos.FirstOrDefaultAsync(x => x.Id == id);
+            todo = await dataBaseContext.ToDos.FirstOrDefaultAsync(x => x.Id == id);
 
             return todo;
         }
 
-        public async Task<IActionResult> PostToDo(ToDo todo)
+        public async Task<bool> PostToDo(ToDo todo)
         {
-            var db = new ToDoListDbContext();
-            await db.AddAsync(todo);
-            await db.SaveChangesAsync();
-            return Ok();
+            await dataBaseContext.AddAsync(todo);
+            var posted = await dataBaseContext.SaveChangesAsync();
+            return posted > 0;
         }
 
-        public async Task<IActionResult> DeleteToDo(int id)
+        public async Task<bool> DeleteToDo(int id)
         {
-            var db = new ToDoListDbContext();
-            ToDo todo = db.ToDos.FirstOrDefault(x => x.Id == id);
-            db.ToDos.Remove(todo);
-            await db.SaveChangesAsync();
-            return Ok();
+            ToDo todo = dataBaseContext.ToDos.FirstOrDefault(x => x.Id == id);
+            dataBaseContext.ToDos.Remove(todo);
+            var deleted = await dataBaseContext.SaveChangesAsync();
+            return deleted > 0;
         }
 
-        public async Task<IActionResult> PutToDo(ToDo toDo)
+        public async Task<bool> PutToDo(ToDo toDo)
         {
-            var db = new ToDoListDbContext();
-            db.Update(toDo);
-            await db.SaveChangesAsync();
-            return Ok();
+            dataBaseContext.Update(toDo);
+            var updated = await dataBaseContext.SaveChangesAsync();
+            return updated > 0;
+
         }
     }
 }

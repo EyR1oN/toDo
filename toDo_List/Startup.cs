@@ -1,16 +1,22 @@
+using Business_Logic_Layer;
+using Business_Logic_Layer.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
+using Data_Access_Layer;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data_Access_Layer.Repository;
+using Data_Access_Layer.Interfaces;
 
 namespace toDo_List
 {
@@ -35,6 +41,15 @@ namespace toDo_List
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "toDo_List", Version = "v1" });
             });
+
+            var connectionString = Configuration.GetConnectionString("ToDoList");
+
+            services.AddDbContext<ToDoListDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddScoped<ICategoryBLL, CategoryBLL>();
+            services.AddScoped<IToDoBLL, ToDoBLL>();
+
+            services.AddScoped<IToDoDAL, ToDoDAL>();
+            services.AddScoped<ICategoryDAL, CategoryDAL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

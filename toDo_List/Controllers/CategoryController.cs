@@ -1,22 +1,20 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.Interfaces;
+using Business_Logic_Layer.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace toDo_List.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CategoryController 
+    public class CategoryController : ControllerBase
     {
-        private Business_Logic_Layer.CategoryBLL _BLL;
+        private ICategoryBLL _BLL;
         
-        public CategoryController()
+        public CategoryController(ICategoryBLL BLL)
         {
-            _BLL = new Business_Logic_Layer.CategoryBLL();
+            _BLL = BLL;
         }
 
         [HttpGet]
@@ -28,20 +26,32 @@ namespace toDo_List.Controllers
         [HttpPost]
         public async Task<IActionResult> PostCategory(CategoryModel toDo)
         {
-           return await _BLL.PostCategory(toDo);
+           if(await _BLL.PostCategory(toDo))
+           {
+                return Ok();
+           }
+           return BadRequest();
         }
 
         [HttpPut]
         public async Task<IActionResult> PutCategory(CategoryModel toDo)
         {
-            return await _BLL.PutCategory(toDo);
+            if (await _BLL.PutCategory(toDo))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
 
 
         [HttpDelete]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            return await _BLL.DeleteCategory(id);
+            if (await _BLL.DeleteCategory(id))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }
