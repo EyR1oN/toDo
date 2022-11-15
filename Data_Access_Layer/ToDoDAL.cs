@@ -26,7 +26,6 @@ namespace Data_Access_Layer
 
         public async Task<ToDo> GetToDoById(int id)
         {
-            var db = new ToDoListDbContext();
             ToDo todo = new ToDo();
             todo = await dataBaseContext.ToDos.FirstOrDefaultAsync(x => x.Id == id);
 
