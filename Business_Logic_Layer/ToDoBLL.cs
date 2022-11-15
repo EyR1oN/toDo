@@ -35,18 +35,18 @@ namespace Business_Logic_Layer
             return toDoModel;
         }
 
-        public async Task<IActionResult> PostToDo(ToDoModel toDoModel)
+        public async Task<bool> PostToDo(ToDoModel toDoModel)
         {
             ToDo toDoEntity = MyAutoMapper<ToDoModel, ToDo>.Map(toDoModel);
             return await _DAL.PostToDo(toDoEntity);
         }
 
-        public async Task<IActionResult> DeleteToDo(int id)
+        public async Task<bool> DeleteToDo(int id)
         {
             return await _DAL.DeleteToDo(id);
         }
 
-        public async Task<IActionResult> PutToDo(ToDoModel toDoModel)
+        public async Task<bool> PutToDo(ToDoModel toDoModel)
         {
             ToDo toDoEntity = MyAutoMapper<ToDoModel, ToDo>.Map(toDoModel);
             return await _DAL.PutToDo(toDoEntity);

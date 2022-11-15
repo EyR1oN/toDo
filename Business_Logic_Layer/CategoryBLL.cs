@@ -3,11 +3,7 @@ using Business_Logic_Layer.Interfaces;
 using Business_Logic_Layer.Models;
 using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Repository.Entities;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Business_Logic_Layer
@@ -30,19 +26,19 @@ namespace Business_Logic_Layer
             return categoriesModel;
         }
 
-        public async Task<IActionResult> PostCategory(CategoryModel catedory)
+        public async Task<bool> PostCategory(CategoryModel catedory)
         {
             Category categoryEntity = MyAutoMapper<CategoryModel, Category>.Map(catedory);
             return await _DAL.PostCategory(categoryEntity);
         }
 
 
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<bool> DeleteCategory(int id)
         {
             return await _DAL.DeleteCategory(id);
         }
 
-        public async Task<IActionResult> PutCategory(CategoryModel categoryModel)
+        public async Task<bool> PutCategory(CategoryModel categoryModel)
         {
             Category categoryEntity = MyAutoMapper<CategoryModel, Category>.Map(categoryModel);
             return await _DAL.PutCategory(categoryEntity);

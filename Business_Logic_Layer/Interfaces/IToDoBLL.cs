@@ -1,9 +1,5 @@
 ﻿using Business_Logic_Layer.Models;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Business_Logic_Layer.Interfaces
@@ -14,11 +10,11 @@ namespace Business_Logic_Layer.Interfaces
 
         public Task<ToDoModel> GetToDoById(int id);
 
-        public Task<IActionResult> PostToDo(ToDoModel toDoModel);
+        public Task<bool> PostToDo(ToDoModel toDoModel);
 
-        public Task<IActionResult> DeleteToDo(int id);
+        public Task<bool> DeleteToDo(int id);
 
-        public Task<IActionResult> PutToDo(ToDoModel toDoModel);
+        public Task<bool> PutToDo(ToDoModel toDoModel);
 
     }
 }

@@ -11,7 +11,7 @@ using Data_Access_Layer.Interfaces;
 
 namespace Data_Access_Layer
 {
-    public class CategoryDAL : ControllerBase, ICategoryDAL
+    public class CategoryDAL : ICategoryDAL
     {
         private readonly ToDoListDbContext dataBaseContext;
         public CategoryDAL(ToDoListDbContext _dataBaseContext)
@@ -24,27 +24,27 @@ namespace Data_Access_Layer
             return await dataBaseContext.Categories.ToListAsync();
         }
 
-        public async Task<IActionResult> PostCategory(Category category)
+        public async Task<bool> PostCategory(Category category)
         {
             dataBaseContext.Add(category);
-            await dataBaseContext.SaveChangesAsync();
-            return Ok();
+            var posted = await dataBaseContext.SaveChangesAsync();
+            return posted > 0;
         }
 
 
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<bool> DeleteCategory(int id)
         {
             Category category = dataBaseContext.Categories.FirstOrDefault(x => x.Id == id);
             dataBaseContext.Categories.Remove(category);
-            await dataBaseContext.SaveChangesAsync();
-            return NoContent();
+            var updated = await dataBaseContext.SaveChangesAsync();
+            return updated > 0;
         }
 
-        public async Task<IActionResult> PutCategory(Category categoryModel)
+        public async Task<bool> PutCategory(Category categoryModel)
         {
             dataBaseContext.Update(categoryModel);
-            await dataBaseContext.SaveChangesAsync();
-            return Ok();
+            var deleted = await dataBaseContext.SaveChangesAsync();
+            return deleted > 0;
         }
 
     }
